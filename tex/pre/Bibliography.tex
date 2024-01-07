@@ -1,0 +1,69 @@
+% --- INLINE CITATIONS ---
+% Add a comma in \cite and \parencite
+\renewcommand*{\nameyeardelim}{\addcomma\space}
+
+% Make a new command to specifically only cite 1 author (counterpart of \fullcite) (https://tex.stackexchange.com/a/333958/203081)
+\newcommand{\textcitefirst}[1]{%
+	\AtNextCite{\defcounter{maxnames}{1}\defcounter{minnames}{1}}%
+	\textcite{#1}%
+}
+
+% Make the name AND the year hyperlinked, not just the year. https://tex.stackexchange.com/a/27107/203081
+\DeclareFieldFormat{citehyperref}{%
+	\DeclareFieldAlias{bibhyperref}{noformat}% Avoid nested links
+	\bibhyperref{#1}}
+
+\DeclareFieldFormat{textcitehyperref}{%
+	\DeclareFieldAlias{bibhyperref}{noformat}% Avoid nested links
+	\bibhyperref{%
+		#1%
+		\ifbool{cbx:parens}
+		{\bibcloseparen\global\boolfalse{cbx:parens}}
+		{}}}
+
+\savebibmacro{cite}
+\savebibmacro{textcite}
+\renewbibmacro*{cite}{%
+	\printtext[citehyperref]{%
+		\restorebibmacro{cite}%
+		\usebibmacro{cite}}}
+
+\renewbibmacro*{textcite}{%
+	\ifboolexpr{
+		( not test {\iffieldundef{prenote}} and
+		test {\ifnumequal{\value{citecount}}{1}} )
+		or
+		( not test {\iffieldundef{postnote}} and
+		test {\ifnumequal{\value{citecount}}{\value{citetotal}}} )
+	}
+	{\DeclareFieldAlias{textcitehyperref}{noformat}}
+	{}%
+	\printtext[textcitehyperref]{%
+		\restorebibmacro{textcite}%
+		\usebibmacro{textcite}}}
+
+% Solve the issue where putting a citation in a section/chapter name incorrectly causes the citation key to become uppercased in the page header BEFORE being turned into a citation, and hence the key can't be replaced and you are left with a missing citation in the header. https://tex.stackexchange.com/a/170994/203081
+\AddToNoCaseChangeList{\parencite \textcite}
+
+
+% --- BIBLIGRAPHY LIST ---
+% Add a little more space between bib entries.
+\setlength\bibitemsep{0.5em}
+
+% Make all authors, not just the first, be cited in reverse order.
+\DeclareNameAlias{sortname}{last-first}
+
+% Used to split the bibliography into "cited" and "not cited" automatically https://tex.stackexchange.com/a/6977/203081
+\DeclareBibliographyCategory{cited}
+\AtEveryCitekey{\addtocategory{cited}{\thefield{entrykey}}}
+
+% Remove language field (usually "en." in the items) https://tex.stackexchange.com/a/401026/203081
+\AtEveryBibitem{\clearlist{language}}
+
+%%%%
+% Actually add the bibliography:
+\addbibresource{./pre/Masterthesis.bib}  % Path is relative to main.tex, not relative to this file.
+%%%%
+
+% Ensure that sources will be printed regardless of whether they were cited in the text or not.
+\nocite{*}

@@ -1,0 +1,172 @@
+%%%%%%%%%%%%%%%%%%%%%%%
+%%% CUSTOM COMMANDS %%%
+%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{suffix}
+
+% \fullref command outputting a link with the autoref link AND the full name of whatever is linked; practically, this is most useful for referencing parts (e.g. `Part III: Statistics')
+\newcommand*{\fullref}[1]{\hyperref[{#1}]{\autoref*{#1}: \nameref*{#1}}}
+
+% \emph*, which applies \emph and adds its content to the index. https://tex.stackexchange.com/a/50773/203081
+\WithSuffix\newcommand\emph*[1]{\emph{#1}\index{#1}}
+
+% The current and next year
+\def\thisyear{\the\numexpr\year+0\relax}
+\def\nextyear{\the\numexpr\year+1\relax}
+
+% Scaling in math mode (use in math mode, and specifying a scale factor i.o. a length)
+\newcommand\scalemath[2]{\scalebox{#1}{\mbox{\ensuremath{\displaystyle #2}}}}
+
+% Small separation line
+\newcommand*\segsep{% Use most times
+	\vspace{-0.6em}\\\rule{1cm}{0.4pt}\\
+}
+
+% Font size between \tiny and \scriptsize (https://tex.stackexchange.com/a/432684/203081)
+\makeatletter
+\newcommand\notsotiny{\@setfontsize\notsotiny\@vipt\@viipt}
+\makeatother
+
+% Math
+\newcommand\Log[1]{\mathop{{}^{#1}\!\log}}  % Benelux logarithm
+\renewcommand{\emptyset}{\varnothing}  % The better emptyset
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\T}{\mathcal{T}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\ft}{\mathfrak{t}}  % fraktur t
+\newcommand{\elltwo}{\mathbb{L}^{\!2}}
+\newcommand{\matr}[1]{\bm{#1}}
+\newcommand{\tmatr}[1]{\bm{#1}^\intercal}
+\newcommand{\listindex}[1]{\cd{[}#1\cd{]}}
+\DeclareMathOperator{\softmax}{softmax}
+\DeclareMathOperator{\Li}{\mathcal{L}}
+\DeclareMathOperator{\uni}{\cup}
+\newcommand{\ind}[1]{{\mathds{1}}\{#1\}}  % Curly braces because square brackets without any prefix already mean "convert bool to int", so a prefix would become pleaonastic. See https://en.wikipedia.org/wiki/Iverson_bracket
+\renewcommand{\Re}{\text{Re}}  % Ain't nobody got time for RealPart(). I use it for recall.
+
+% Easy superscript for centuries, e.g. 20\up{th}
+\let\up\textsuperscript
+\let\down\textsubscript
+
+\usepackage{relsize}
+\renewcommand{\_}{\textscale{.5}{\textunderscore}}  % Shorter underscore https://tex.stackexchange.com/a/128817/203081. DO NOT USE THIS IN MATH MODE, IT WILL CRASH THE COMPILER AND TEXSTUDIO.
+\newcommand{\specialtoken}[1]{\langle \texttt{#1}\rangle}
+\newcommand{\unk}{\specialtoken{UNK}}
+\newcommand{\eos}{\specialtoken{EOS}}
+\newcommand{\sow}{\textsc{sow}\xspace}
+\newcommand{\eow}{\textsc{eow}\xspace}
+\newcommand{\ellipsis}{\textsc{[...]}\xspace}
+
+% Text styles
+\newcommand{\ex}[1]{\textsl{#1}}   % Example
+\newcommand{\cd}[1]{\texttt{#1}}   % Code
+\newcommand{\lxm}[1]{\textsc{#1}}  % Lexeme
+\newcommand{\tk}[1]{\textsf{#1}}   % Tokeniser
+\newcommand{\greek}[1]{{\fontspec{Linux Libertine O}#1}}
+\newcommand{\russian}[1]{{\fontspec{Linux Libertine O}#1}}
+\newcommand{\chinese}[1]{{\fontspec{Linux Libertine O}#1}}
+
+% Hebrew support (any/all of these statements are necessary; took me a long time to throw this together)
+\babelfont[hebrew]{rm}{SILEOT.ttf}  % You need to install this. Overleaf has it automatically. https://software.sil.org/ezra/
+\babelprovide[onchar=fonts ids]{hebrew}  % This should allow writing Hebrew Unicode without wrapping it in \texthebrew 
+\DeclareLanguageMapping{hebrew}{english}  % This means BibLaTeX doesn't complain about "language not supported".
+\newcommand{\texthebrew}[1]{\foreignlanguage{hebrew}{#1}}
+
+% Abbreviations
+\newcommand{\bert}{\textsc{bert}\xspace}
+\newcommand{\roberta}{Ro\textsc{BERT}a\xspace}
+\newcommand{\robbert}{Rob\textsc{BERT}\xspace}
+\newcommand{\berttiny}{\textsc{bert}\textsubscript{\textsc{tiny}}\xspace}
+\newcommand{\gptFour}{\textsc{gpt-4}\xspace}
+\newcommand{\gptThree}{\textsc{gpt-3}\xspace}
+\newcommand{\gptTwo}{\textsc{gpt-2}\xspace}
+\newcommand{\gpt}{\textsc{gpt}\xspace}
+\newcommand{\bleu}{\textsc{bleu}\xspace}
+\newcommand{\bpe}{\textsc{bpe}\xspace}
+\newcommand{\wpm}{\textsc{wpm}\xspace}
+\newcommand{\bpeNL}{\textsc{bpe}\down{nl}\xspace}
+
+% Wikipedia superscripts
+\newcommand{\eng}{Eng.:\,}  % To be used explicitly without braces (\eng, not \eng{})
+\newcommand{\ned}{Ned.:\,}
+\newcommand{\cn}{\textsuperscript{\color{blue}[citation needed]}}
+
+% Support Unicode characters ⸤ and ⸥ (https://tex.stackexchange.com/a/679336/203081)
+\usepackage{newunicodechar}
+\newfontface{\lowbrackets}{Noto Sans}
+\NewDocumentCommand{\blhb}{}{{\lowbrackets\symbol{"2E24}}}
+\NewDocumentCommand{\brhb}{}{{\lowbrackets\symbol{"2E25}}}
+\newunicodechar{⸤}{\blhb}
+\newunicodechar{⸥}{\brhb}
+
+% Combine list of figures and tables. Generalised version of https://tex.stackexchange.com/a/14545/203081
+\makeatletter
+\providecommand\phantomsection{}% for hyperref
+\newcommand{\listofillustrations}{%
+	\chapter{\illustrationsname}%
+	\phantomsection
+	%\addcontentsline{toc}{chapter}{Lijst van illustraties}%
+	\section*{\listfigurename}%
+	\phantomsection
+	\addcontentsline{toc}{section}{\listfigurename}%
+	\@starttoc{lof}%
+	\bigskip
+	\section*{\listtablename}%
+	\phantomsection
+	\addcontentsline{toc}{section}{\listtablename}%
+	\@starttoc{lot}%
+	\bigskip
+	%\section*{\listalgorithmname}%
+	%\phantomsection
+	\addcontentsline{toc}{section}{\listalgorithmname}%
+	% So, for some reason, \@starttoc{loa} doesn't want to work (it outputs garbled titles). Luckily I found this fix https://tex.stackexchange.com/a/198860/203081 as an alternative. It lets \listofalgorithms do its thing as usual, except we ninja-edit \chapter* to be \section*.
+	\begingroup
+	\let\chapter\section% Temporary
+	\listofalgorithms
+	\endgroup
+	%\@starttoc{loa}%
+}
+\makeatother
+
+% Todonotes that doesn't kill you when you include it. TODO: Could be better, e.g. anti-overlap.
+\let\marginnote\someundefinedcommand
+\usepackage{marginnote}
+%\reversemarginpar
+\newcommand{\marginboxTB}[2]{\marginnote{%
+	\begin{tikzpicture}%
+		\node[draw,fill=#1,align=left,rounded corners,text width=0.5\marginparwidth] () {#2};%Need to align=... to be breakable. https://tex.stackexchange.com/a/31100/203081
+	\end{tikzpicture}}[-1.75em]}% Move up by one line.
+
+\newcommand{\todo}[1]{\marginboxTB{red!15}{#1}}
+
+% --- Gradient-coloured table cells: surround cell content by \tgrad. Based on a mix of answers at https://tex.stackexchange.com/q/174998/203081.
+\usepackage{pgf}
+\usepackage{etoolbox}
+
+% Definitions
+\newcommand*{\MinNumber}{0.0}%
+\newcommand*{\MidNumber}{0.5} %
+\newcommand*{\MaxNumber}{1.0}%
+
+\definecolor{high}{HTML}{03AC13}
+\definecolor{mid}{HTML}{F7E379}
+\definecolor{low}{HTML}{ec462e}
+\newcommand*{\cellopacity}{80}
+
+% Cell command
+\newcommand{\tgrad}[1]{%
+    \ifdim #1 pt > \MidNumber pt%
+        \pgfmathparse{max(min(100.0*(#1 - \MidNumber)/(\MaxNumber-\MidNumber),100.0),0.00)}%
+        \xdef\PercentColor{\pgfmathresult}%
+        \cellcolor{high!\PercentColor!mid!\cellopacity}#1%
+    \else
+        \pgfmathparse{max(min(100.0*(\MidNumber - #1)/(\MidNumber-\MinNumber),100.0),0.00)}%
+        \xdef\PercentColor{\pgfmathresult}%
+        \cellcolor{low!\PercentColor!mid!\cellopacity}#1%
+    \fi
+}
+
+% Optional: add a new tabular column type, "R", that applies tgrad to all cells automatically. Only works for fully numeric columns though; no column headers allowed.
+%\usepackage{collcell}
+%\newcolumntype{R}{>{\collectcell\tgrad}c<{\endcollectcell}}

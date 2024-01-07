@@ -1,0 +1,141 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% CUSTOM ENVIRONMENTS %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Chapter abstract
+\newenvironment{abstract}{
+	\begin{quote}
+		\small \textbf{\abstractname --}
+}{
+	\end{quote}
+}
+
+% Crux
+\newenvironment{crux}{
+	\begin{quote}
+		\small \textbf{\cruxname --}
+}{
+	\end{quote}
+}
+
+% Generic style for boxes.
+\mdfdefinestyle{basic}{%
+	backgroundcolor=black!5,
+    linewidth=1pt,
+    frametitlebelowskip=-0.25\topskip,
+   	skipbelow=-0.12em
+}
+
+
+% Box with INLINE title. Taken from MCS book.
+\newtheoremstyle{question}{-\topsep}{}{\slshape}{}{\bfseries}{}{.5em}{}
+\theoremstyle{question}  % All theorem declarations after this will have this style.
+\newmdtheoremenv[  % Not mdtheorem! https://tex.stackexchange.com/q/655399/203081
+	default,
+	skipabove=0.5em,
+	linewidth=1pt
+]{question}{Onderzoeksvraag}%[part]
+
+% Lined quote. Taken from K&S book.
+\mdfdefinestyle{leftrule}{%
+	topline=false,
+	bottomline=false,
+	rightline=false,
+	linewidth=1.25pt,
+	skipbelow=-0.12em
+}
+\newmdenv[style=leftrule, font=\small]{linequote}
+
+% Parent style of all styles. \mdfsetup doesn't seem to be able to regulate spacing if the "default" option is used, so my solution is to let all other styles inherit the same spacing settings.
+% (not sure why I commented them out, but they're here when you need them!)
+%\mdfdefinestyle{spacing}{
+%	skipabove=0.5em,
+%	frametitlebelowskip=-0.25\topskip
+%}
+%\mdfdefinestyle{dashed}{%
+%	style=spacing,
+%	linecolor=white, 
+%	tikzsetting={draw=black, dashed, line width=1pt, dash pattern=on 5pt off 5pt}
+%}
+%\mdfdefinestyle{dotted}{%
+%	style=spacing,
+%	linecolor=white, 
+%	tikzsetting={draw=black, dotted, line width=1pt}
+%}
+%\newcommand{\dashedboxReducedwidthUnnumbered}[2]{
+%	\begin{mdframed}[default, style=dashed, userdefinedwidth=0.75\linewidth, align=center]
+%		\textbf{#1}\\
+%		#2
+%	\end{mdframed}
+%}
+
+% Horizontal+vertical center
+\newenvironment{fullcenter}{
+	\mbox{}\vfill\begin{center}
+}{
+	\end{center}\vfill\mbox{}
+}
+
+% Algorithms with lines in the indents. https://tex.stackexchange.com/a/351363/203081
+\usepackage{etoolbox}
+\newcommand{\algruledefaultfactor}{.75}
+\newcommand{\algstrut}[1][\algruledefaultfactor]{\vrule width 0pt
+depth .25\baselineskip height #1\baselineskip\relax}
+\newcommand*{\algrule}[1][\algorithmicindent]{\hspace*{.5em}\vrule\algstrut
+\hspace*{\dimexpr#1-.5em}}
+
+\makeatletter
+\newcount\ALG@printindent@tempcnta
+\def\ALG@printindent{%
+    \ifnum \theALG@nested>0% is there anything to print
+    \ifx\ALG@text\ALG@x@notext% is this an end group without any text?
+    % do nothing
+    \else
+    \unskip
+    % draw a rule for each indent level
+    \ALG@printindent@tempcnta=1
+    \loop
+    \algrule[\csname ALG@ind@\the\ALG@printindent@tempcnta\endcsname]%
+    \advance \ALG@printindent@tempcnta 1
+    \ifnum \ALG@printindent@tempcnta<\numexpr\theALG@nested+1\relax% can't do <=, so add one to RHS and use < instead
+    \repeat
+    \fi
+    \fi
+}%
+
+\patchcmd{\ALG@doentity}{\noindent\hskip\ALG@tlm}{\ALG@printindent}{}{\errmessage{failed to patch}}
+\AtBeginEnvironment{algorithmic}{\lineskip0pt}
+
+% Renumber with chapter (https://tex.stackexchange.com/a/124957/203081)
+\makeatletter 
+\renewcommand\thealgorithm{\thechapter.\arabic{algorithm}} 
+\@addtoreset{algorithm}{chapter} 
+\makeatother
+
+% Add \autoref prefix to algorithm line references (name defined in Settings.tex) (https://tex.stackexchange.com/a/351229/203081)
+%\makeatletter
+%\patchcmd{\ALG@step}{\addtocounter{ALG@line}{1}}{\refstepcounter{ALG@line}}{}{}
+%\newcommand{\ALG@lineautorefname}{\algorithmlineautorefname}
+%\makeatother
+
+% My own version (documented at https://tex.stackexchange.com/a/687624/203081), which actually works for multiple algorithms:
+% - Define your own counter of which you know it isn't forced to 0 when an algorithm is started.
+% - Link this counter to the algorithm counter, so that it starts over with a new algorithm (like subsections start over)
+%   yet the link is stored by the counter to not produce the same ref as before.
+\newcounter{algoline}[algorithm]
+\renewcommand{\thealgoline}{\arabic{algoline}}
+
+\makeatletter
+\patchcmd{\ALG@step}{\addtocounter{ALG@line}{1}}{\stepcounter{ALG@line}\refstepcounter{algoline}}{}{}
+\newcommand{\algolineautorefname}{\algorithmlineautorefname}
+\makeatother
+
+% Redefine name at the top of the algorithm environment (name defined in Settings.tex)
+\makeatletter
+\renewcommand{\ALG@name}{\algorithmname}
+\makeatother
+
+
+\newcommand*\Let[2]{\State #1 $\gets$ #2}
+\newcommand*\Stateh{\State \algstrut[1]}  % Came with the lines-in-algorithms code.
+\newcommand{\Statey}{\vspace{-0.31em}\State}  % \State tends to have a gap above it. This is another way to solve that.

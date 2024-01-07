@@ -1,0 +1,144 @@
+%%%%%%%%%%%%%%%%%%%%%%%
+%%% CUSTOM SETTINGS %%%
+%%%%%%%%%%%%%%%%%%%%%%%
+% No double space after period. It stretches too much IMHO. https://tex.stackexchange.com/questions/4705/double-space-between-sentences
+\frenchspacing
+
+% Hyperref
+\definecolor{skyblue}{HTML}{009BCF}
+\definecolor{deepgreen}{HTML}{399A0C}
+\definecolor{cerulean}{HTML}{00A2E3}
+\hypersetup{
+    colorlinks=true,
+    urlcolor=cerulean,
+    citecolor=deepgreen,
+    linkcolor=Purple
+}
+
+% Segment renaming in Dutch
+\addto\captionsdutch{
+	\renewcommand{\abstractname}{Abstract}
+	\renewcommand{\appendixname}{Appendix}      % Shown at start of appendix chapter
+	\renewcommand{\bibname}{Bibliografie}
+	\renewcommand{\chaptername}{Hoofdstuk}      % Shown at start of main chapter
+	\renewcommand{\contentsname}{Inhoudstafel}  % Shown above ToC
+	\renewcommand{\figurename}{Figuur}          % Shown in caption, not in inline reference
+	\renewcommand{\indexname}{Index}
+	\renewcommand{\listfigurename}{Figurenlijst}
+	\renewcommand{\listtablename}{Tabellenlijst}
+	\renewcommand{\listalgorithmname}{Algoritmenlijst}
+	\renewcommand{\partname}{Deel}              % Shown on inserted part sheet
+	\renewcommand{\refname}{Referenties}
+	\renewcommand{\tablename}{Tabel}            % Shown in caption, not in inline reference
+	%\newcommand{\algorithmname}{Algoritme}  % Only works outside of this, for some reason.
+}
+\newcommand{\algorithmname}{Algoritme}
+\newcommand{\cruxname}{Samengevat}
+\newcommand{\illustrationsname}{Lijsten van illustraties}
+
+% Inline referencing:
+% For sections, figures, and tables, use \autoref{} (gets modified below)
+% For parts, use \fullref{} (gets defined below)
+\addto\extrasdutch{%  % These all appear inline
+	\def\partautorefname{Deel}%
+	\def\chapterautorefname{Hoofdstuk}%
+	\def\sectionautorefname{\S\!\!}%
+	\def\subsectionautorefname{\S\!}%
+	\def\subsubsectionautorefname{\S\!\!}%
+	\def\paragraphautorefname{\S\!\!}%
+	\def\subparagraphautorefname{\S\!\!}%
+	\def\appendixautorefname{Appendix}%
+	\def\figureautorefname{Figuur}%
+	\def\tableautorefname{Tabel}%
+	\def\pageautorefname{pagina}%
+	%
+	\def\equationautorefname{Vgl.}%   % For safety using \autoref on accident. Use \eqref.
+	\def\thmautorefname{Stelling}%
+	\def\defiautorefname{Definitie}%
+	\def\questionautorefname{Onderzoeksvraag}%
+	\def\algorithmlineautorefname{lijn}%
+	\def\algorithmautorefname{Algoritme}%
+    \def\pageautorefname{pagina}%
+}
+
+% Footnotes keep counting over chapters
+\counterwithout*{footnote}{chapter}
+
+% Section numbering for subsub
+\setcounter{secnumdepth}{3}
+
+% Remove the unwanted space \left( and \right) generate by default (e.g., \cos\left(a\right) renders as cos (a) instead of cos(a); this is very apparent when using E[] and Var[] in probtheory)
+\let\originalleft\left
+\let\originalright\right
+\renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}
+\renewcommand{\right}{\aftergroup\egroup\originalright}
+
+% Interval configuration
+\intervalconfig{
+	separator symbol = {;}	
+}
+
+% mdframed spacing
+\mdfsetup{skipabove=6pt,skipbelow=5pt}
+
+% minted gray line numbers
+\renewcommand{\theFancyVerbLine}{\textcolor[rgb]{0.85,0.85,0.85}{\tiny\arabic{FancyVerbLine}}}
+
+% Footnotes that escape from frame environments: \footnoteof{}. For having floats inside these environments, use \captionof{thefloattype}{thecaption}\label{thelabel}.
+\usepackage{tablefootnote} 
+\makeatletter
+\AfterEndEnvironment{mdframed}{%
+	\tfn@tablefootnoteprintout% 
+	\gdef\tfn@fnt{0}% 
+}
+\makeatother 
+\newcommand{\footnoteof}[1]{\tablefootnote{#1}}
+
+% Bold table heads
+\renewcommand\theadfont{\bfseries}
+
+% Configure \hdashline to be dotted instead of dashed (https://tex.stackexchange.com/a/169103/203081)
+\setlength{\dashlinedash}{0.25pt}
+\setlength{\dashlinegap}{0.75pt}
+%\setlength{\arrayrulewidth}{1pt}
+
+% Make pages red if they exceed the thesis page limit (https://tex.stackexchange.com/a/675875/203081). Note: \AddToHook needs at least LaTeX 2020 installed. Some newer LaTeX versions crash for some packages, so this might also help: https://tex.stackexchange.com/a/581962/203081.
+%\usepackage{afterpage}
+%\usepackage{etoolbox}
+%\AddToHook{shipout/before}{
+%    \ifnum\ReadonlyShipoutCounter=70
+%        \pagecolor{red}
+%    \else
+%        \relax
+%    \fi
+%}
+
+% Tokenisation tree style
+\newcommand\forestskip{1 mm}
+\forestset{
+    % Configure tree so it can be stacked with other trees: https://tex.stackexchange.com/a/687344/203081
+    bpetree/.style = {
+        delay={where content={}{shape=coordinate}{}},
+        where n children=0{
+        	tier=word, 
+        	baseline,
+        	font=\scshape
+        }{},
+        for tree={
+            text height = 2ex,
+            text depth  = 0.5ex,
+            inner ysep = 0pt,
+            inner xsep = 1pt,
+            s sep = \forestskip + 1mm
+        },
+        % Drop nodes as low as possible: https://tex.stackexchange.com/a/686577/203081
+        for tree children-first={
+          if n children=0{
+            tier=0,
+          }{
+            tier/.max={1+tier}{children},
+          },
+        },
+        forked edges
+    }
+}
