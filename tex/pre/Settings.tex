@@ -67,7 +67,7 @@
 % Section numbering for subsub
 \setcounter{secnumdepth}{3}
 
-% Remove the unwanted space \left( and \right) generate by default (e.g., \cos\left(a\right) renders as cos (a) instead of cos(a); this is very apparent when using E[] and Var[] in probtheory)
+% Remove the unwanted space \left( and \right) generate by default (e.g., \cos\left(a\right) renders as cos (a) instead of cos(a); this is very apparent when using E[] and Var[] in probtheory) (https://tex.stackexchange.com/q/2607/203081)
 \let\originalleft\left
 \let\originalright\right
 \renewcommand{\left}{\mathopen{}\mathclose\bgroup\originalleft}

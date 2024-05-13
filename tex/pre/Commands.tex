@@ -38,7 +38,7 @@
 \newcommand{\elltwo}{\mathbb{L}^{\!2}}
 \newcommand{\matr}[1]{\bm{#1}}
 \newcommand{\tmatr}[1]{\bm{#1}^\intercal}
-\newcommand{\listindex}[1]{\cd{[}#1\cd{]}}
+\newcommand{\listindex}[1]{\co{[}#1\co{]}}
 \DeclareMathOperator{\softmax}{softmax}
 \DeclareMathOperator{\Li}{\mathcal{L}}
 \DeclareMathOperator{\uni}{\cup}
@@ -60,12 +60,12 @@
 
 % Text styles
 \newcommand{\ex}[1]{\textsl{#1}}   % Example
-\newcommand{\cd}[1]{\texttt{#1}}   % Code
+\newcommand{\co}[1]{\texttt{#1}}   % Code
 \newcommand{\lxm}[1]{\textsc{#1}}  % Lexeme
 \newcommand{\tk}[1]{\textsf{#1}}   % Tokeniser
-\newcommand{\greek}[1]{{\fontspec{Linux Libertine O}#1}}
-\newcommand{\russian}[1]{{\fontspec{Linux Libertine O}#1}}
-\newcommand{\chinese}[1]{{\fontspec{Linux Libertine O}#1}}
+\newcommand{\textgreek}[1]{{\fontspec{Linux Libertine O}#1}}
+\newcommand{\textrussian}[1]{{\fontspec{Linux Libertine O}#1}}
+\newcommand{\textchinese}[1]{{\fontspec{Linux Libertine O}#1}}
 
 % Hebrew support (any/all of these statements are necessary; took me a long time to throw this together)
 \babelfont[hebrew]{rm}{SILEOT.ttf}  % You need to install this. Overleaf has it automatically. https://software.sil.org/ezra/
@@ -86,6 +86,7 @@
 \newcommand{\bpe}{\textsc{bpe}\xspace}
 \newcommand{\wpm}{\textsc{wpm}\xspace}
 \newcommand{\bpeNL}{\textsc{bpe}\down{nl}\xspace}
+\newcommand{\repo}{\textsc{bauwemt}\xspace}
 
 % Wikipedia superscripts
 \newcommand{\eng}{Eng.:\,}  % To be used explicitly without braces (\eng, not \eng{})
