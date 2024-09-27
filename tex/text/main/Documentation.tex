@@ -1,0 +1,58 @@
+% !TeX spellcheck = en_GB
+\chapter{Overview of \texttt{bauwemt}}\label{chap:bauwemt}
+
+\section{Installation}
+To get started with \repo, here's what you do:
+\begin{enumerate}
+	\item If you don't have a local installation of \LaTeX{}, download the latest version of TeX Live from \href{https://www.tug.org/texlive/}{TUG}.
+	
+	\item Install the \href{https://www.texstudio.org/}{TeXstudio} editor. Don't even bother with the TeXworks editor; it has almost no features and crashes more than TeXstudio. Overleaf will not work for your thesis since it will eventually exceed the compilation time limit, and also, Overleaf requires internet access and has no version control.\footnote{Speaking of version control: if you're on Windows and don't have Git yet, now is the time to \href{https://git-scm.com/downloads}{get it}. It is not required to use \repo, but you should absolutely track the changes in your thesis.}
+	
+	\item Download\footnote{Do \emph{not} fork this repo for the purpose of writing your thesis. Forks are public and you will make your thesis text available to everyone who visits \repo on GitHub.} this template off of GitHub.
+	
+	\item Open \co{main.tex} in TeXstudio.
+	
+	\item Press \keys{F5} to do a first compile. This may take multiple minutes, but eventually, the resulting PDF should appear on the right.
+\end{enumerate}
+
+\section{Folder structure}
+I've seen some pretty abysmal \LaTeX{} file management over the years. You wouldn't believe where some people put preamble code, body text, and images. To ensure that your thesis does not turn into such a mess, \repo isn't just a style file you import as a \co{documentclass}, but it comes as an entire folder structure instead.
+
+You can expect to see the following hierarchy:
+
+\begin{BVerbatim}
+	tex/
+	|---main.tex
+	|---pre/
+	|---text/
+	|   |---front/
+	|   |---main/
+	|   `---apx/
+	`---res/
+	    |---fig/
+	    |---tab/
+	    `---bib/
+\end{BVerbatim}
+
+The top-level folder \co{tex/} makes it such that you can host other files relevant to your thesis in a sibling folder. In my case, I also have top-level folders for \co{code/}, \co{notes/}, and for \co{presentations/}.
+
+\co{main.tex} is the file you will compile to see your thesis. It has two purposes: to import packages, and to pull in files from the rest of the thesis.
+
+\co{pre/} is where all the files go imported in the preamble of \co{main.tex}. These files contain definitions for new \LaTeX{} commands (e.g.\ shortcuts for some symbols) and new environments, and styles for the bibliography, the index, colours used in the thesis, chapter headings and so on. If you're not \TeX{}-savvy, this is not relevant to you.
+
+\co{text/} is where you put all the text that goes inside the thesis. It is separated into all the boilerplate in \co{front/} of your thesis (abstract, foreword, table of contents, lists, ...), your \co{main/} chapters, and possibly any appendices in \co{apx/}.
+
+\co{res/} is where you put files that aren't text put do go inside the thesis. It is separated into \co{fig/}ures, \co{tab/}les, and \co{bib/}liography files.
+
+\section{Writing your thesis}
+Always enter the project through \co{main.tex} so that TeXstudio knows to start compiling from there, even if you are editing a different \co{.tex} file when you press \keys{F5} (compile and show this project's PDF) or \keys{F6} (compile). To open other files, you can either open them from your file system while TeXstudio is already running and has \co{main.tex} open in one tab, or you can scroll down in \co{main.tex} to where \verb|\begin{document}| is defined and \keys{Ctrl+Lclick} the paths loaded with \verb|\input{}|.
+
+When you are writing, it should become a habit to press \keys{Ctrl+S} at the end of every sentence, \emph{except when compilation is in progress} (because then you're modifying a file while its being read, and you may get a compilation error that applies to a Frankenstein'ed version of your thesis and hence means nothing).
+
+You should expect compilation to take quite a while. TeXstudio does not block the editor when you are compiling, except when it makes the index and bibliography. Rather than waiting for compilation to finish, you should only compile every-so-often out of habit, and keep writing the paragraph you were busy on. Once compilation is finished, you can switch from writing your paragraph to looking at the output to verify if everything works.
+
+
+\section{Troubleshooting}
+Compilation errors can usually be Googled to resolve them. Always look for a link to \href{https://tex.stackexchange.com/}{tex.stackexchange.com} in the search results, because this is by far the best place to find high-quality information about \LaTeX{} features and bugs.
+
+If you find that one of your issues is caused by \repo specifically, please \href{https://github.com/bauwenst/bauwemt/issues}{open a GitHub issue}.
