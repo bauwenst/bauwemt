@@ -11,3 +11,6 @@ Out-of-the-box support for nice-looking:
 - Code listings;
 
 ... and comes with a pre-determined folder structure to keep all your files organised from the start.
+
+Contains very specific fixes for doing things like:
+- Citing an author in a section title, and having it appear correctly in the page headings.
