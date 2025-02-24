@@ -6,8 +6,20 @@
 % \fullref command outputting a link with the autoref link AND the full name of whatever is linked; practically, this is most useful for referencing parts (e.g. `Part III: Statistics')
 \newcommand*{\fullref}[1]{\hyperref[{#1}]{\autoref*{#1}: \nameref*{#1}}}
 
-% \emph*, which applies \emph and adds its content to the index. https://tex.stackexchange.com/a/50773/203081
-\WithSuffix\newcommand\emph*[1]{\emph{#1}\index{#1}}
+% By default, \autopageref links to the first anchor that appears above the \label it refers to, rather than to the exact location of the \label (despite outputting the correct page number!). So, say you have a section with no subsections that runs for many pages, \autopageref to a \label you place in the text will just link to the start of the section. \pagelabel anchors the label. https://tex.stackexchange.com/a/193392/203081
+\newcommand{\pagelabel}[1]{\phantomsection\label{#1}}
+
+% \emph*, which applies \emph and adds its content to the index.
+% 	- Index functionality: https://tex.stackexchange.com/a/50773/203081
+%	- Lowercasing based on: https://tex.stackexchange.com/a/380505/203081
+\def\lowmystringaux#1#2\relax{\lowercase{#1}#2}
+\newcommand\firstToLow[1]{\lowmystringaux#1\relax}
+
+\WithSuffix\newcommand\emph*[1]{% Lowercases the first letter.
+	\emph{#1}%
+	\index{#1@\firstToLow{#1}}%  {what it's indexed as @ what it shows up as}. As it turns out, it is VERY difficult to insert the lowercased string into \index without the latter seeing the \ of the command that does the lowercasing.
+}
+\WithSuffix\newcommand\Emph*[1]{\emph{#1}\index{#1}}  % Keeps capitalisation.
 
 % The current and next year
 \def\thisyear{\the\numexpr\year+0\relax}
@@ -65,7 +77,6 @@
 \newcommand{\tk}[1]{\textsf{#1}}   % Tokeniser
 \newcommand{\textgreek}[1]{{\fontspec{Linux Libertine O}#1}}
 \newcommand{\textrussian}[1]{{\fontspec{Linux Libertine O}#1}}
-\newcommand{\textchinese}[1]{{\fontspec{Linux Libertine O}#1}}
 
 % Hebrew support (any/all of these statements are necessary; took me a long time to throw this together)
 \babelfont[hebrew]{rm}{SILEOT.ttf}  % You need to install this. Overleaf has it automatically. https://software.sil.org/ezra/
@@ -74,18 +85,8 @@
 \newcommand{\texthebrew}[1]{\foreignlanguage{hebrew}{#1}}
 
 % Abbreviations
-\newcommand{\bert}{\textsc{bert}\xspace}
 \newcommand{\roberta}{Ro\textsc{BERT}a\xspace}
-\newcommand{\robbert}{Rob\textsc{BERT}\xspace}
 \newcommand{\berttiny}{\textsc{bert}\textsubscript{\textsc{tiny}}\xspace}
-\newcommand{\gptFour}{\textsc{gpt-4}\xspace}
-\newcommand{\gptThree}{\textsc{gpt-3}\xspace}
-\newcommand{\gptTwo}{\textsc{gpt-2}\xspace}
-\newcommand{\gpt}{\textsc{gpt}\xspace}
-\newcommand{\bleu}{\textsc{bleu}\xspace}
-\newcommand{\bpe}{\textsc{bpe}\xspace}
-\newcommand{\wpm}{\textsc{wpm}\xspace}
-\newcommand{\bpeNL}{\textsc{bpe}\down{nl}\xspace}
 \newcommand{\repo}{\textsc{bauwemt}\xspace}
 
 % Wikipedia superscripts
@@ -141,33 +142,42 @@
 
 \newcommand{\todo}[1]{\marginboxTB{red!15}{#1}}
 
-% --- Gradient-coloured table cells: surround cell content by \tgrad. Based on a mix of answers at https://tex.stackexchange.com/q/174998/203081.
-\usepackage{pgf}
+% Gradient-coloured table cells: surround cell content by \tgrad. Based on a mix of answers at https://tex.stackexchange.com/q/174998/203081.
+% - These packages have already been loaded, but you'll need them if you want to use this in a standalone project:
+%\usepackage[table]{xcolor}
+%\usepackage{arydshln}
+%\usepackage{hhline}  % There's a fatal flaw in arydshln's partial table lines, \cline and \cdashline, namely that they don't move cells down to make a gap into which to insert their line, unlike \hline. As a result, coloured cells cover those lines (see https://tex.stackexchange.com/a/603623/203081). A solution is using \hhline syntax (https://tex.stackexchange.com/a/121477/203081).
 \usepackage{etoolbox}
+\usepackage{pgf}
+\usepackage{xargs}
 
-% Definitions
-\newcommand*{\MinNumber}{0.0}%
-\newcommand*{\MidNumber}{0.5} %
-\newcommand*{\MaxNumber}{1.0}%
+% - These are for making minuses look like the horizontal bar of a plus (I made this myself!)
+\usepackage{xstring}
+\newcommand{\longerminus}{\scalebox{1.9}[1.0]{-}\kern-0.5pt}
+\newcommand{\makeminuslonger}[1]{\StrSubstitute{#1}{-}{\longerminus}}
 
+% - Definitions
 \definecolor{high}{HTML}{03AC13}
 \definecolor{mid}{HTML}{F7E379}
 \definecolor{low}{HTML}{ec462e}
-\newcommand*{\cellopacity}{80}
+\newcommand*{\opacity}{80}
 
-% Cell command
-\newcommand{\tgrad}[1]{%
-    \ifdim #1 pt > \MidNumber pt%
-        \pgfmathparse{max(min(100.0*(#1 - \MidNumber)/(\MaxNumber-\MidNumber),100.0),0.00)}%
+% - Cell command
+\newcommandx{\tgrad}[4][1=0.0, 2=0.5, 3=1.0]{%
+    \ifdim #4 pt > #2 pt%
+        \pgfmathparse{max(min(100.0*(#4-#2)/(#3-#2),100.0),0)}%
         \xdef\PercentColor{\pgfmathresult}%
-        \cellcolor{high!\PercentColor!mid!\cellopacity}#1%
+        \cellcolor{high!\PercentColor!mid!\opacity}\makeminuslonger{#4}%
     \else
-        \pgfmathparse{max(min(100.0*(\MidNumber - #1)/(\MidNumber-\MinNumber),100.0),0.00)}%
+        \pgfmathparse{max(min(100.0*(#2-#4)/(#2-#1),100.0),0)}%
         \xdef\PercentColor{\pgfmathresult}%
-        \cellcolor{low!\PercentColor!mid!\cellopacity}#1%
+        \cellcolor{low!\PercentColor!mid!\opacity}\makeminuslonger{#4}%
     \fi
 }
 
-% Optional: add a new tabular column type, "R", that applies tgrad to all cells automatically. Only works for fully numeric columns though; no column headers allowed.
-%\usepackage{collcell}
-%\newcolumntype{R}{>{\collectcell\tgrad}c<{\endcollectcell}}
+% - Optional: add a new tabular column type, "R", that applies tgrad to all cells automatically. Only works for fully numeric columns though; no column headers allowed.
+\usepackage{collcell}
+\newcolumntype{R}{>{\collectcell\tgrad}c<{\endcollectcell}}
+
+% String truncation: keep the first m and last n characters of a given string. https://tex.stackexchange.com/a/726030/203081
+\newcommand{\TruncateString}[3]{\StrLeft{#3}{\expandafter #1}\ldots\StrRight{#3}{#2}}

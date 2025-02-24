@@ -7,85 +7,12 @@
 %	- LuaLaTeX is necessary right now to support the chapter style. If not for that, pdflatex would work.
 %	- To compile the index, use Tools > Index in TeXstudio after compiling once, then compile again. Don't wanna change the automatic pipeline.
 \documentclass[a4paper, 11pt]{book}
-
-%%%%%%%%%%%%%%%
-%%% IMPORTS %%%
-%%%%%%%%%%%%%%%
-\usepackage[inner=1.5in, outer=1in, top=1in, bottom=1in]{geometry}  % Margins
-%\usepackage[margin=1in]{geometry}  % Margins
-\usepackage{parskip}    % No LaTeX indents, and empty lines between paragraphs in .tex files translate to stretchy-but-not-too-big blank lines in the PDF output.
-
-% Math
-\usepackage{mathtools}  % Math things
-\usepackage{amssymb}    % More math things
-%\usepackage{unicode-math}  % Extends amssymb with \mathbb{1} and other stuff. Note: changes all other math and clashes with rsfso.
-\usepackage{dsfont}     % Double-stroked letters like \mathds{1}
-\usepackage{mathdots}   % Dotty math things
-\usepackage{bm}         % Bold math
-\usepackage[scr]{rsfso} % Sexy \mathscr capitals
-\usepackage{siunitx}    % Units
-\usepackage{commath}    % Derivative and integral d's, and also norms.
-\usepackage{interval}   % Standardised intervals (European convention, separators ...)
-\usepackage{xspace}     % An optional space \xspace behind 0-argument commands.
-\usepackage{amsthm}     % Basic theorems
-
-% Figures
-\usepackage{graphicx}   % Figures
-\usepackage{float}      % [H] placement
-\usepackage{mdframed}   % Theorem (example, exercise ...) environments with frames, leftrules ...
-\usepackage{changepage} % For \begin{adjustwidth}{-...}{-...} to eat into margins.
-\usepackage{pdflscape}  % Landscape pages, but unlike lscape, these actually rotate in the PDF too.
-\usepackage[margin=10pt,font=small,labelfont=bf,labelsep=endash]{caption}    % Needed for two purposes: 1. to put tables and figures inside mdenvs, and 2. for syling captions.
-\usepackage{subcaption} % Subfigures
-\usepackage[svgnames,table]{xcolor}     % Colours. svgnames is for some title themes.
-\usepackage{tikz}
-\usetikzlibrary{calc}
-\usetikzlibrary{matrix}       % For Viterbi trellis
-\usetikzlibrary{positioning}
-\usepackage[edges]{forest}  % Easy syntax for trees. The "edges" option allows rectangular branches as a style option.
-\usepackage[noend]{algpseudocode}  % Algorithm syntax
-\usepackage[algochapter]{algorithm}             % Algorithm float
-\usepackage{neuralnetwork}  % Viterbi in appendix
-\usepackage{menukeys}   % Used in a footnote to explain WebCelex menu steps.
-\usepackage{minted}
-
-% Tables
-\usepackage{multirow}  % Split table cells
-\usepackage{makecell}  % Breakable cells
-\usepackage{longtable} % Big ol' table, at least 7 inches no cap. Load before arydshln if you don't want to cry.
-\usepackage{hhline}    % Double table lines
-\usepackage{arydshln}  % Dashed table lines
-
-% Typography
-%\usepackage[utf8]{inputenc}
-\usepackage{fontspec}  % Allows Greek text inclusion (example: The Greek word {\fontspec{Linux Libertine O}ἐπιστήμη} means ``science''.)
-\usepackage[dutch]{babel}
-\usepackage[style=english]{csquotes}\MakeOuterQuote{"}  % Easy quotes
-
-% Links
-\usepackage{imakeidx}    % To get an index. Must be loaded before hyperref: https://tex.stackexchange.com/a/22014/203081
-\usepackage{hyperref}
-\usepackage[backend=biber, 
-	defernumbers=true,  % "defernumbers" means that if you print the bibliography in multiple pieces, their numbering (if you use IEEE style) will be sorted according to how they are printed, and NOT according to how they would be printed if there was one big bibliography.
-	style=authoryear, citestyle=authoryear,
-	maxbibnames=99, 
-	maxcitenames=2,     % Cite either 1 author, 2 authors, or 1 author + et al.
-	uniquelist=false,    % Solves issue where for the same author but a different year, the author names are still disambiguated. https://tex.stackexchange.com/q/676517/203081. Also solves issues with same author same year, see the examples in section 4.11.4.1 and 4.11.4.2 of the manual at https://mirror.lyrahosting.com/CTAN/macros/latex/contrib/biblatex/doc/biblatex.pdf. Note: "uniquelist" only takes effect when biber compiles again.
-	uniquename=false,  % To prevent Chinese names from getting a first name like "S Wang" and "Yingting Wu" because there are so many authors with the same last name. https://tex.stackexchange.com/q/321460/203081
-	dashed=false  % If true, the bibliography puts a ---- in place of the authors if they are the same as in the previous entry.
-]{biblatex}
-
-% Attachments
-\usepackage{pdfpages}   % For the cover
-\usepackage[titletoc]{appendix}          % "Appendix" prefix in ToC.
-%\usepackage[printwatermark]{xwatermark}  % "DRAFT" watermark. But nevermind, this package is evil.  https://tex.stackexchange.com/a/581962/203081
-%\usepackage{todonotes}  % This package is evil and will never work, so I defined my own version in Commands.
-\makeindex[options={-s pre/IndexStyle.ist}]  % Like \makeglossary. Style of the index defined at https://tex.stackexchange.com/q/530376/203081. NOTE: in TeXstudio, to recompile the index, use Tools > Index!
-\usepackage[totoc]{idxlayout}   % Index in the ToC. https://tex.stackexchange.com/a/57437/203081
+\usepackage[bidi=default, english]{babel}  % Change your language here. (The bidi=default makes it so that \texthebrew is not printed in reverse.)
 
 %%%%%%%%%%%%%%%%%%%%%%
 %%% PREAMBLE PARTS %%%
 %%%%%%%%%%%%%%%%%%%%%%
+\input{pre/Imports}
 \input{pre/Settings}
 \input{pre/Commands}
 \input{pre/Environments}

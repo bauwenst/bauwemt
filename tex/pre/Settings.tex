@@ -1,21 +1,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%
 %%% CUSTOM SETTINGS %%%
 %%%%%%%%%%%%%%%%%%%%%%%
-% No double space after period. It stretches too much IMHO. https://tex.stackexchange.com/questions/4705/double-space-between-sentences
-\frenchspacing
+% Language-specific title strings.
+% -- New names
+\newcommand{\algorithmname}{Algorithm}
+\newcommand{\abstractname}{Abstract}
+\newcommand{\cruxname}{Crux}
+\newcommand{\illustrationsname}{Lists of illustrations}
 
-% Hyperref
-\definecolor{skyblue}{HTML}{009BCF}
-\definecolor{deepgreen}{HTML}{399A0C}
-\definecolor{cerulean}{HTML}{00A2E3}
-\hypersetup{
-    colorlinks=true,
-    urlcolor=cerulean,
-    citecolor=deepgreen,
-    linkcolor=Purple
-}
-
-% Segment renaming in Dutch
+% -- Language-specific changes
 \addto\captionsdutch{
 	\renewcommand{\abstractname}{Abstract}
 	\renewcommand{\appendixname}{Appendix}      % Shown at start of appendix chapter
@@ -30,23 +23,42 @@
 	\renewcommand{\partname}{Deel}              % Shown on inserted part sheet
 	\renewcommand{\refname}{Referenties}
 	\renewcommand{\tablename}{Tabel}            % Shown in caption, not in inline reference
-	%\newcommand{\algorithmname}{Algoritme}  % Only works outside of this, for some reason.
+	\renewcommand{\algorithmname}{Algoritme}  % Idem.
+	\renewcommand{\cruxname}{Samengevat}
+	\renewcommand{\illustrationsname}{Lijsten van illustraties}
 }
-\newcommand{\algorithmname}{Algoritme}
-\newcommand{\cruxname}{Samengevat}
-\newcommand{\illustrationsname}{Lijsten van illustraties}
 
 % Inline referencing:
-% For sections, figures, and tables, use \autoref{} (gets modified below)
-% For parts, use \fullref{} (gets defined below)
+% - For sections, figures, and tables, use \autoref{}.
+% - For parts, use \fullref{}.
+
+% -- First define spacers that ensure an exact amount of space is put after the autoref names (for which you have to gobble the space that would exist after).
+\makeatletter  % This is here to activate @-commands.
+\def\fixedsectionspace{\kern1pt\@gobble}
+\def\fixedeqspace{\kern1.25pt\@gobble}
+\makeatother
+
+% -- New names
+\def\algorithmlineautorefname{line}%
+
+% -- Language-specific changes
+\addto\extrasenglish{%  % These all appear inline.
+	\def\sectionautorefname{\S{}\fixedsectionspace}%
+	\def\subsectionautorefname{\S{}\fixedsectionspace}%
+	\def\subsubsectionautorefname{\S{}\fixedsectionspace}%
+	\def\paragraphautorefname{\S{}\fixedsectionspace}%
+	\def\subparagraphautorefname{\S{}\fixedsectionspace}%
+}
+
 \addto\extrasdutch{%  % These all appear inline
+	\def\sectionautorefname{\S{}\fixedsectionspace}%
+	\def\subsectionautorefname{\S{}\fixedsectionspace}%
+	\def\subsubsectionautorefname{\S{}\fixedsectionspace}%
+	\def\paragraphautorefname{\S{}\fixedsectionspace}%
+	\def\subparagraphautorefname{\S{}\fixedsectionspace}%
+	%
 	\def\partautorefname{Deel}%
 	\def\chapterautorefname{Hoofdstuk}%
-	\def\sectionautorefname{\S\!\!}%
-	\def\subsectionautorefname{\S\!}%
-	\def\subsubsectionautorefname{\S\!\!}%
-	\def\paragraphautorefname{\S\!\!}%
-	\def\subparagraphautorefname{\S\!\!}%
 	\def\appendixautorefname{Appendix}%
 	\def\figureautorefname{Figuur}%
 	\def\tableautorefname{Tabel}%
@@ -59,6 +71,22 @@
 	\def\algorithmlineautorefname{lijn}%
 	\def\algorithmautorefname{Algoritme}%
     \def\pageautorefname{pagina}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% No double space after period. It stretches too much IMHO. https://tex.stackexchange.com/questions/4705/double-space-between-sentences
+\frenchspacing
+
+% Hyperref
+\definecolor{skyblue}{HTML}{009BCF}
+\definecolor{deepgreen}{HTML}{399A0C}
+\definecolor{cerulean}{HTML}{00A2E3}
+\hypersetup{
+    colorlinks=true,
+    urlcolor=cerulean,
+    citecolor=deepgreen,
+    linkcolor=Purple
 }
 
 % Footnotes keep counting over chapters

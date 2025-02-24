@@ -60,10 +60,9 @@
 % Remove language field (usually "en." in the items) https://tex.stackexchange.com/a/401026/203081
 \AtEveryBibitem{\clearlist{language}}
 
-%%%%
-% Actually add the bibliography:
-\addbibresource{./res/bib/Masterthesis.bib}  % Path is relative to main.tex, not relative to this file.
-%%%%
+%%% Actually add the bibliography (relative to main.tex) %%%
+\addbibresource{./res/bib/example-bibliography.bib}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Ensure that sources will be printed regardless of whether they were cited in the text or not.
 \nocite{*}
