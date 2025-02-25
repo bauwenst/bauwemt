@@ -76,6 +76,41 @@
 	\end{center}\vfill\mbox{}
 }
 
+% subequations*: amsmath's subequations, but continuing the equations' number since the last subequations/subequations* so you can have something like equation 1a, 1b, 2, and then later 1c. (https://tex.stackexchange.com/a/101004/203081)
+\makeatletter
+\newcounter{qrr@oldeq}
+\newcounter{qrr@oldsubeq}
+\newcounter{qrr@realeq}
+\renewenvironment{subequations}{%
+	\refstepcounter{equation}%
+	\protected@edef\theparentequation{\theequation}%
+	\setcounter{parentequation}{\value{equation}}%
+	\setcounter{equation}{0}%
+	\def\theequation{\theparentequation\alph{equation}}%
+	\ignorespaces
+}{%
+	\setcounter{qrr@oldeq}{\value{parentequation}}%
+	\setcounter{qrr@oldsubeq}{\value{equation}}%
+	\setcounter{equation}{\value{parentequation}}%
+	\ignorespacesafterend
+}
+\newenvironment{subequations*}{%
+	\setcounter{qrr@realeq}{\value{equation}}%
+	\let\theparentequation\theequation%
+	\patchcmd{\theparentequation}{equation}{parentequation}{}{}%
+	\setcounter{parentequation}{\numexpr\value{qrr@oldeq}-1}%
+	\setcounter{equation}{\value{qrr@oldsubeq}}%
+	\def\theequation{\theparentequation\alph{equation}}%
+	\refstepcounter{parentequation}%
+	\ignorespaces
+}{%
+	\setcounter{qrr@oldeq}{\value{parentequation}}%
+	\setcounter{qrr@oldsubeq}{\value{equation}}%
+	\setcounter{equation}{\value{qrr@realeq}}%
+	\ignorespacesafterend
+}
+\makeatother
+
 % Algorithms with lines in the indents. https://tex.stackexchange.com/a/351363/203081
 \usepackage{etoolbox}
 \newcommand{\algruledefaultfactor}{.75}

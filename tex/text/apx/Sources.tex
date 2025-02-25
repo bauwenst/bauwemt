@@ -1,0 +1,7 @@
+\chapter{\sourcesname}
+% "heading=bibintoc" creates a chapter, "heading=subbibintoc" creates a section. Both cause \printbibliography to appear in the table of contents.
+\printbibliography[heading=subbibintoc, title={\refname}, category=cited]
+\printbibliography[heading=subbibintoc, title={\furtherrefname}, notcategory=cited]
+
+\hyphenchar\font=-1  % Stop hyphenation https://tex.stackexchange.com/a/5039/203081
+\printindex

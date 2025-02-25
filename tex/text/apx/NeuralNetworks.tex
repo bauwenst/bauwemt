@@ -1,0 +1,66 @@
+% !TeX spellcheck = en_GB
+\chapter{Neural Networks}\label{apx:neuralnetworks}
+This is an example appendix giving some background about a topic the reader should be familiar with that is reoccurring in the thesis but not necessarily the main focus.
+
+Notice how the backdrop of the title is a big "A" because this is appendix A.
+
+\section{Example of a neural network}
+A simple neural network may look like:
+\begin{center}
+\begin{neuralnetwork}[height=5]  % https://tex.stackexchange.com/a/464473/203081    
+    \inputlayer[count=3, bias=false]
+    \hiddenlayer[count=4, bias=false] \linklayers
+    \hiddenlayer[count=5, bias=false] \linklayers
+    \hiddenlayer[count=4, bias=false] \linklayers
+    \hiddenlayer[count=3, bias=true] \linklayers
+    \outputlayer[count=1] \linklayers
+\end{neuralnetwork}
+\end{center}
+with the fundamental activation equation being
+\begin{equation}
+	y_{\ell+1,j} = \varphi\left(\sum_{i=1}^{N_\ell} w_{\ell,i,j} y_{\ell,i} \right)  \qquad  j = 1, \hdots, N_\ell.
+\end{equation}
+
+You can also bold edges in such diagrams, useful for dynamic programming:
+\begin{center}
+\begin{neuralnetwork}[height=5]  % https://tex.stackexchange.com/a/464473/203081
+ %   \newcommand{\x}[2]{$x_#2$}
+%    \newcommand{\y}[2]{$\hat{y}_#2$}
+%    \newcommand{\hfirst}[2]{\small $h^{(1)}_#2$}
+%    \newcommand{\hsecond}[2]{\small $h^{(2)}_#2$}
+    
+    \inputlayer[count=1, bias=false]
+    \hiddenlayer[count=4, bias=false] 
+    \linklayers
+    \hiddenlayer[count=4, bias=false] 
+    \linklayers
+    \hiddenlayer[count=4, bias=false] 
+    \linklayers
+    \hiddenlayer[count=4, bias=false] 
+    \linklayers%
+    
+    \link[style={draw=black,line width=1pt}, from layer=3, from node=2, to layer=4, to node=1]
+    \link[style={draw=black,line width=1pt}, from layer=3, from node=1, to layer=4, to node=2]
+    \link[style={draw=black,line width=1pt}, from layer=3, from node=4, to layer=4, to node=3]
+    \link[style={draw=black,line width=1pt}, from layer=3, from node=4, to layer=4, to node=4]
+
+	\link[style={draw=black,line width=1pt}, from layer=2, from node=2, to layer=3, to node=1]
+    \link[style={draw=black,line width=1pt}, from layer=2, from node=2, to layer=3, to node=2]
+    \link[style={draw=black,line width=1pt}, from layer=2, from node=4, to layer=3, to node=3]
+    \link[style={draw=black,line width=1pt}, from layer=2, from node=1, to layer=3, to node=4]
+
+    \link[style={draw=black,line width=1pt}, from layer=1, from node=1, to layer=2, to node=1]    
+    \link[style={draw=black,line width=1pt}, from layer=1, from node=4, to layer=2, to node=2]    
+    \link[style={draw=black,line width=1pt}, from layer=1, from node=4, to layer=2, to node=3]    
+    \link[style={draw=black,line width=1pt}, from layer=1, from node=1, to layer=2, to node=4]    
+    
+    \link[style={draw=black,line width=1pt}, from layer=0, from node=1, to layer=1, to node=1]    
+    \link[style={draw=black,line width=1pt}, from layer=0, from node=1, to layer=1, to node=2]
+    \link[style={draw=black,line width=1pt}, from layer=0, from node=1, to layer=1, to node=3]
+    \link[style={draw=black,line width=1pt}, from layer=0, from node=1, to layer=1, to node=4]
+        
+    \outputlayer[count=1] \linklayers
+
+    \link[style={draw=black,line width=1pt}, from layer=4, from node=3, to layer=5, to node=1]    
+\end{neuralnetwork}
+\end{center}
