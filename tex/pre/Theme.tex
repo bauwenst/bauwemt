@@ -27,82 +27,17 @@
 %%%%%%%%%%%%%%%%%%%%%%%%
 %%% CHAPTER HEADINGS %%%
 %%%%%%%%%%%%%%%%%%%%%%%%
-%\usepackage{lmodern}
-%\usepackage[explicit]{titlesec}
-%\usepackage{microtype}
-%\usepackage{tikz}
-%
-%\titleformat%
-%{\chapter}[hang]%
-%{\bfseries}
-%{%
-%	\begin{minipage}[t]{0.3\linewidth}  
-%		\vspace{0pt}% do not remove
-%		\begin{tikzpicture}
-%			\node[
-%				outer sep=0pt,
-%				text width=2.5cm,
-%				minimum height=2.5cm,
-%				fill=black,
-%				font=\color{white}\fontsize{80}{90}\selectfont,
-%				align=center
-%			] (num) {\thechapter};
-%			\node[
-%				outer sep=0pt,
-%				inner sep=0pt,
-%				anchor=south,
-%				font=\color{black}\Large\normalfont
-%			] at ([yshift=3pt]num.north) {\textls[90]{\textsc{\chaptertitlename}}};
-%		\end{tikzpicture}  
-%	\end{minipage}%
-%}
-%{0pt}%
-%{%
-%	\begin{minipage}[t]{.7\linewidth}%
-%	    \vspace{2pt} % do not remove
-%	    \rule{\linewidth}{2.5pt}\\\vskip -1.75\baselineskip%
-%	    \rule{\linewidth}{.7pt}\vskip 5pt
-%	    {\LARGE\raggedright #1}
-%	\end{minipage}%
-%}
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\usepackage{lmodern}
-%\usepackage{titlesec}
-%\usepackage{microtype}
-%\usepackage{tikz}
-%
-%\definecolor{myblue}{RGB}{0,82,155}
-%
-%\titleformat{\chapter}[display]
-%  {\normalfont\bfseries\color{myblue}}
-%  {\filleft%
-%    \begin{tikzpicture}
-%    \node[
-%      outer sep=0pt,
-%      text width=3cm,
-%      minimum height=3cm,
-%      fill=myblue,
-%      font=\color{white}\fontsize{80}{90}\selectfont,
-%      align=center
-%    ] (num) {\thechapter};
-%    \node[
-%      rotate=90,
-%      anchor=south,
-%      font=\color{black}\Large\normalfont
-%    ] at ([xshift=-5pt]num.west) {\textls[70]{\textsc{\chaptertitlename}}};  
-%    \end{tikzpicture}%
-%  }
-%  {10pt}
-%  {\titlerule[2.5pt]\vskip3pt\titlerule\vskip4pt\LARGE} 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[explicit]{titlesec}
 \usepackage{apptools}
+
+% Taken from https://tex.stackexchange.com/a/724738/203081
+\def\firstcharacter#1{\expandafter\firstcharacterA#1{}\end}
+\def\firstcharacterA#1#2\end{#1}
 
 \titleformat{\chapter}
 	[display]
 	{\normalfont\bfseries}
-	{\fontsize{100}{120}\selectfont\color{LightGray}\IfAppendix{}{H}\thechapter}
+	{\fontsize{100}{120}\selectfont\color{LightGray}\IfAppendix{}{\firstcharacter{\chaptername}}\thechapter}
 	{-75pt}
 	{\fontsize{28}{26}\selectfont #1}
 	[]

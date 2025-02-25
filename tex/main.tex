@@ -7,7 +7,7 @@
 %	- LuaLaTeX is necessary right now to support the chapter style. If not for that, pdflatex would work.
 %	- To compile the index, use Tools > Index in TeXstudio after compiling once, then compile again. Don't wanna change the automatic pipeline.
 \documentclass[a4paper, 11pt]{book}
-\usepackage[bidi=default, english]{babel}  % Change your language here. (The bidi=default makes it so that \texthebrew is not printed in reverse.)
+\usepackage[bidi=default, dutch]{babel}  % Change your language here. (The bidi=default makes it so that \texthebrew is not printed in reverse.)
 
 %%%%%%%%%%%%%%%%%%%%%%
 %%% PREAMBLE PARTS %%%
@@ -48,9 +48,9 @@
 	\end{appendices}
 	
 	\backmatter
-	% Since \backmatter doesn't reset the page number or change page style, I thought it might be cool to continue mainmatter numbering but in Roman style https://tex.stackexchange.com/q/56131/203081
+	% The following line (when uncommented) continues \mainmatter numbering but in Roman style (since \backmatter doesn't reset the page number or change page style...) https://tex.stackexchange.com/q/56131/203081
 	%\renewcommand{\thepage}{\alph{page}}
-	% Actually, nah, I want to use \alph and start from a. https://tex.stackexchange.com/a/56133/203081
+	% The following line resets the page number starting from a. https://tex.stackexchange.com/a/56133/203081
 	\pagenumbering{alph}
 	\input{text/apx/Sources.tex}
 \end{document}
