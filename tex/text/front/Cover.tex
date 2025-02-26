@@ -1,0 +1,40 @@
+\pagestyle{empty}
+
+\newcommand{\coverpath}{./text/front/cover-generator/cover.pdf}
+\IfFileExists{\coverpath}{\includepdf[pages=1]{\coverpath}}{}
+
+\begin{titlepage}
+	\begin{fullcenter}
+		\LARGE \textsc{\repo: a better \LaTeX{} template for \\
+		engineering master's theses than kulemt}
+		
+		\Large drs.\ ir.\ Thomas Bauwens
+
+		\today
+	\end{fullcenter}
+\end{titlepage}
+\newpage
+\pagestyle{plain}
+
+\mbox{}\vfill
+{\scshape
+© Copyright by KU Leuven, \thisyear.
+
+Zonder voorafgaande schriftelijke toestemming van zowel de promotor(en) als de auteur(s) is overnemen, kopiëren, gebruiken of realiseren van deze uitgave of gedeelten ervan verboden. Voor aanvragen tot of informatie i.v.m.\ het overnemen en/of gebruik en/of realisatie van gedeelten uit deze publicatie, wend u tot de KU Leuven:
+\begin{verse}
+	Departement Computerwetenschappen, \\
+	Celestijnenlaan {\small 200A} bus {\small 2402}, B-3001 Leuven (Heverlee), België,\\
+	via tel.\ +32\! 16\! 32\! 77\! 00 of via e-mail \href{mailto:info@cs.kuleuven.be}{info@cs.kuleuven.be}
+\end{verse}
+Voorafgaande schriftelijke toestemming van de promotor(en) is eveneens vereist voor het aanwenden van de in dit afstudeerwerk beschreven (originele) methoden, producten, schakelingen en programma’s voor industrieel of commercieel nut en voor de inzending van deze publicatie ter deelname aan wetenschappelijke prijzen of wedstrijden.
+}
+\newpage
+
+\begin{center}
+	\mbox{}\vfill
+	\emph{Dedicated to a person I cherish, \\ and hence deserves this dedication. We won't forget him/her.}
+	\vfill
+\end{center}
+\newpage
+% https://www.clearlingo.co.nz/blog/how-to-order-the-pages-of-a-book
+\newpage

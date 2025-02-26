@@ -55,6 +55,12 @@ When you are writing, it should become a habit to press \keys{Ctrl+S} at the end
 
 You should expect compilation to take quite a while. TeXstudio does not block the editor when you are compiling, except when it makes the index and bibliography. Rather than waiting for compilation to finish, you should only compile every-so-often out of habit, and keep writing the paragraph you were busy on. Once compilation is finished, you can switch from writing your paragraph to looking at the output to verify its correctness.
 
+\section{Cover page}
+Generating your thesis cover is the only part for which it is obligatory to use kulemt. You do this by opening the file \directory{text/front/cover-generator/cover.tex} as a separate project, changing the details to match your thesis, and compiling that file. The result will be a file \co{cover.pdf} which is inserted automatically when you then recompile \co{main.tex}.
+
+\begin{mdframed}
+\textbf{Note:} the copy of kulemt that generates this cover, included in the same folder, has been modified by me to fix several issues with kulemt covers. In kulemt, a busier sans-serif font is used for the cover text, and the logo is not only positioned too far left on the page, but (at the time I wrote my thesis) it was also of lower resolution and missing its bottom two rows of pixels. \repo rectifies these.
+\end{mdframed}
 
 \section{Troubleshooting}
 Compilation errors can usually be Googled to resolve them. Always look for a link to \href{https://tex.stackexchange.com/}{tex.stackexchange.com} in the search results, because this is by far the best place to find high-quality information about \LaTeX{} features and bugs.

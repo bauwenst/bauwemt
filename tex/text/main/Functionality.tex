@@ -264,91 +264,21 @@ Floats have a caption that shows up in one of the lists that follow the table of
 	\label{fig:semanticalgebra}
 \end{figure}
 
- 
-\begin{figure}[H]
-\begin{mdframed}[backgroundcolor=black!5]
-\begin{adjustwidth}{0cm}{-1cm}
-\scalebox{0.8}{
-\begin{tikzpicture}[
-     myboxtext/.style={rectangle, draw, minimum width=1.4em, minimum height=10mm, text depth=0mm, text height=1em},  % "Text height" needed to align labels vertically https://tex.stackexchange.com/a/529480/203081
-     myboxarrows/.style={rectangle, draw, minimum width=9.5mm, minimum height=10mm}
- ]
- % Inspired by https://tex.stackexchange.com/a/179753/203081
- \newcommand{\randarrow}{\tikz{
-     % random direction and length
-     \pgfmathsetmacro\angle{rnd*360}
-     \pgfmathsetmacro\halflen{2*(rnd-0.5)*0.15 + 0.3}  % When this value is 0.5, the arrow is 10mm long.
-     \draw[line width=1.25pt,-stealth,color=black] (0,0) +(\angle:-\halflen) -- +(\angle:\halflen);}
- }
- 
- \def\tokens{
-     \textunderscore{}Rob/3663, BER/14334, T/342, 's/167, \textunderscore{}B/138, PE/14388, -/19, to/2751, ken/859, iser/8468, \textunderscore{}split/18486, ste/369, \textunderscore{}dit/52, \textunderscore{}voorbeeld/1403, \textunderscore{}el/4241, o/169, qu/2237, ent/666, ./4
- }
- \edef\tokenAmount{0}  % No, you can't just calculate the length of the above array. I struggled for a whole hour trying to put the result of a function call that did that into a variable that would be allowed by the rectangle below.
-
- \def\origin{3.1em}
-
- \node[anchor=west] at (0,\origin) {RobBERT's BPE-tokeniser splitste dit voorbeeld eloquent.};
-
- \def\origin{0em}
-
- \node (node0) at (0,\origin) {};
- \foreach \token/\id [count=\x] in \tokens {
-     \pgfmathsetmacro{\prevx}{\x-1}
-     
-     \node[right=-0.15mm of node\prevx, fill=white] (node\x) [myboxtext] {\token};
-     \node[below=5mm of node\x.center] {\footnotesize \x};
-     \xdef\tokenAmount{\x}
- }
- \draw[ultra thick] (node1.south west) rectangle (node\tokenAmount.north east);
-
- \def\origin{-5em}
-
- \node (inode0) at (0,\origin) {};
- \foreach \token/\id [count=\x] in \tokens {
-     \pgfmathsetmacro{\prevx}{\x-1}
- 
-     \node[inner sep=0mm,right=0mm of inode\prevx, fill=white] (inode\x) [myboxarrows]  {\footnotesize\id };
-     \node[below=5mm of inode\x.center]  {\footnotesize \x};
- }
- \draw[ultra thick] (inode1.south west) rectangle (inode\tokenAmount.north east);
-
- \def\origin{-10em}
-
- \pgfmathsetseed{34678901}
- \node (anode0) at (0,\origin) {};
- \foreach \token/\id [count=\x] in \tokens {
-     \pgfmathsetmacro{\prevx}{\x-1}
- 
-     \node[right=0mm of anode\prevx, fill=white] (anode\x) [myboxarrows]  { };
-     \node[below=5mm of anode\x.center]  {\footnotesize \x};
-     \node at (anode\x.center) { \randarrow };
- }
- \draw[ultra thick] (anode1.south west) rectangle (anode\tokenAmount.north east);
-\end{tikzpicture}
-}
-\end{adjustwidth}
-\end{mdframed}
-\caption[Dataformaten aan de interfaces in een NLP-systeem.]{Dataformaten aan de interfaces in een NLP-systeem. Van boven naar onder: wat de tokeniser ziet (karakters), wat het vocabularium ziet (subwoorden), wat de embedder-LUT ziet (token-id's), en wat een neuraal model ziet (embeddingvectoren).}
-\label{fig:interfaces}
-\end{figure}
 
 \subsubsection{Subfigures}
 \begin{figure}[h]
-	\hspace{-1em}
 	\begin{subfigure}{0.5\linewidth}
-%		\includegraphics[width=\linewidth]{./fig/Knockout1}
+		\includegraphics[width=\linewidth]{./res/fig/knockout-before}
 		\caption{Before}
 	\end{subfigure}
 	\hspace{2em}
 	\begin{subfigure}{0.5\linewidth}
-%		\includegraphics[width=\linewidth]{./fig/Knockout2}
+		\includegraphics[width=\linewidth]{./res/fig/knockout-after}
 		\caption{After}
 	\end{subfigure}
-	\caption[Visualisatie van BPE-knockout]{Visualisatie van de veranderingen in een deel van de BPE-mergegraaf na knockout van het type \ex{ids}, afkomstig van de merge \ex{id+s}.}
+	\caption[Visualisation of BPE-knockout]{Visualisation of the changes in part of the BPE merge graph after knockout of the Dutch type \ex{ids}, originating from the merge \ex{id+s}.}
 	\label{fig:knockout}
 \end{figure}
-
 
 \begin{landscape}
 \mbox{}\vfill 
@@ -404,16 +334,7 @@ BTE-knockout-notrivial & M & -- & 37.7k & \tgrad{0.60} & \tgrad{0.73} & \multico
 \vfill
 \end{landscape}
 
-If you want to have tables with numerical results that are within a certain range where one end is good and the other end is bad, you can surround each cell with the \verb|\tgrad{...}| command (short for \emph{table gradient}) to colour the background. One example of such a table is \autoref{tab:knockouttrivial}. Another can be found on page 9 of \textcite{bauwens_2024_bpe-knockout}. If your results originate from a Python program, I highly recommend you use the \href{https://github.com/bauwenst/fiject}{\textsf{fiject}} package to generate your table, including the wrapping of the cells, automatically.
-
-\begin{center}
-\hspace*{-2em}
-\begin{tabular}{rr}
-			   & \verb/  1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  / \\
-	Referentie:& \verb/d   o   c   t   o   r | a   a   t | s | m   i   s   e   r   i   e/ \\
-	Kandidaat: & \verb/d   o   c   t   o   r | a   a   t | s   m | i   s | e   r   i   e/
-\end{tabular}
-\end{center}
+If you want to have tables with numerical results that are within a certain range where one end is good and the other end is bad, you can surround each cell with the \verb|\tgrad{...}| command (short for \emph{table gradient}) to colour the background. One example of such a table is \autoref{tab:knockouttrivial}. Another can be found on page 9 of \textcite{bauwens_bpe-knockout_2024}. If your results originate from a Python program, I highly recommend you use the \href{https://github.com/bauwenst/fiject}{\textsf{fiject}} package to generate your table, including the wrapping of the cells, automatically.
  
 \subsection{Algorithms}
 Algorithms are floats containing a (non-floating) \verb|algorithmic| environment preceded by a caption and a label. They are numbered automatically, like figures.
@@ -468,6 +389,8 @@ You can colour parts of algorithms if you want to highlight them, like in \autor
 		\EndFunction
 	\end{algorithmic}
 \end{algorithm}
+
+\newpage
 
 You can also space out two lines by putting a \verb|\vspace| in between them, like I do to separate two functions in \autoref{algo:kudo}.
 \begin{algorithm}[H]
@@ -561,51 +484,11 @@ You can also space out two lines by putting a \verb|\vspace| in between them, li
 \section{Boxes/frames}
 Use the \verb|mdframed| environment for creating boxes around your text that are breakable across pages. \repo comes with a couple of styles for these boxes: for example, \verb|style=basic| adds a nice light grey background to your box.
 
-\begin{mdframed}[frametitle={Distributionele hypothese (DH)}, style=basic]
-	De betekenis van een woordtype wordt bepaald door de contexten waarin tokens van dat type voorkomen.
+\begin{mdframed}[frametitle={A note about screens}, style=basic,  innertopmargin=0.7em]
+	On some screens, you may not see some of the edges of these default boxes. They will, however, appear when you zoom in, when you buy a higher-resolution monitor, and when you print your work on paper.
 \end{mdframed}
 
-\begin{mdframed}[frametitle={Morfologische hypothese (MH)}, style=basic]
-	NLP-modellen met subwoordtokenisatie presteren beter wanneer subwoordgrenzen overeenkomen met morfologische grenzen.
-\end{mdframed}
-
-\begin{mdframed}[frametitle={Grammale hypothese (GH)}, style=basic]
-	Strings met meer karakteroverlap hebben een meer verwante betekenis.
-\end{mdframed}
-
-
-\begin{mdframed}[backgroundcolor=black!5]
-\begin{enumerate}
-	\item \emph{Vocabularisatie}:\index{vocabularisatie}\footnotemark{} leer het tokeniservocabularium.
-	\item \emph{Inferisatie}:\index{inferisatie} leer de segmentatieregels van de tokeniser.
-	\item \emph{Corpussegmentatie}: pas de segmentatieregels toe op het traincorpus. 
-	\begin{itemize}
-		\item[MT:] er kan een aparte tokeniser zijn voor de bron- en doelzijde van het parallelle corpus, en bovendien kan de segmentatie van de ene zijde afhangen van die van de andere. Na deze stap is de doeltaaltokeniser nutteloos.
-	\end{itemize}
-	
-	\item \emph{Train} het NLP-model op het getokeniseerd corpus. 
-	\begin{itemize}
-		\item[MT:] decodeer één token per keer, waarbij het volgende token niet wordt geconditioneerd op de voorbije \textsl{voorspelde} tokens, maar op de \textsl{correcte} tokens volgens het doelcorpus (\emph*{teacher forcing}).
-		\item[CLM:] idem.
-	\end{itemize}
-	
-	\item \emph{Invoersegmentatie}: pas de segmentatieregels toe op een invoerstring, die t.o.v.\ de voorbeelden in het trainingcorpus slechts beperkte informatie bevat.
-	\begin{itemize}
-		\item[MT:] de string is de volledige brontaalzin om te vertalen. De vertaling is onbekend en wordt niet door de tokeniser behandeld.
-		\item[CLM:] de string is het begin van de context die het CLM dient te vervolledigen. De vervollediging is onbekend en wordt niet door de tokeniser behandeld, zelfs al gebruikt het CLM die als bijkomende context.
-	\end{itemize}
-	
-	\item \emph{Infereer} met het NLP-model.
-	\begin{itemize}
-		\item[MT:] decodeer een volledige sequentie (tot een eindtoken), waarbij nu wel geconditioneerd wordt op voorbije voorspellingen. Gebruik \emph{beam search} voor stabiliteit. De uitvoer moet niet worden gesegmenteerd omdat decodering al op tokenniveau gebeurt, en dus impliciet segmentatie nabootst.
-		\item[CLM:] idem.
-	\end{itemize}
-\end{enumerate}
-\end{mdframed}
-\footnotetext{Deze naam is uitgevonden door \textcite{xu_vocabulary_2021}.}
-
-
-
+You can make a box wider than the page margin allows by nesting an \verb|adjustwidth| inside the box. Also, you can wrap a box inside a figure to make it float.
 \begin{figure}[h]
 	\begin{mdframed}[backgroundcolor=black!5, innertopmargin=-0.6em]
 	\begin{adjustwidth}{0cm}{-1cm}
@@ -614,8 +497,95 @@ Use the \verb|mdframed| environment for creating boxes around your text that are
 		\end{aligned}\end{equation*}
 	\end{adjustwidth}
 	\end{mdframed}
-	\caption{NLP-pipeline voor modellen met tekst als uitvoer.}
+	\caption{NLP pipeline for models with text as output}
 	\label{fig:pipeline}
+\end{figure}
+
+Here is an example of a breaking box.
+\begin{mdframed}[backgroundcolor=black!5]
+Some tips about frames:
+\begin{enumerate}
+	\item You can have frames with no title.
+	\item If you want to have a footnote in a frame, use a \verb|\footnotemark| where you want the number to be, and then \emph{outside} of the frame, add \verb|\footnotetext{...}| to declare the text. Kind of like this.\footnotemark 	
+	\item If you want to add a figure with a numbered caption, it can't float, so you have to use a \verb|center| environment instead, and to indicate that it's a figure caption, use \verb|\captionof{figure}{...}|.
+\end{enumerate}
+
+\begin{center}
+	\includegraphics[width=0.75\linewidth]{res/fig/vaswani-transformer}
+	\captionof{figure}{Unfloating figure}
+\end{center}
+
+\end{mdframed}
+
+\footnotetext{This footnote text belongs to the last footnote mark that was placed.}
+
+
+\begin{figure}[H]
+\begin{mdframed}[backgroundcolor=black!5]
+\begin{adjustwidth}{0cm}{-1cm}
+\scalebox{0.8}{
+\begin{tikzpicture}[
+     myboxtext/.style={rectangle, draw, minimum width=1.4em, minimum height=10mm, text depth=0mm, text height=1em},  % "Text height" needed to align labels vertically https://tex.stackexchange.com/a/529480/203081
+     myboxarrows/.style={rectangle, draw, minimum width=9.5mm, minimum height=10mm}
+ ]
+ % Inspired by https://tex.stackexchange.com/a/179753/203081
+ \newcommand{\randarrow}{\tikz{
+     % random direction and length
+     \pgfmathsetmacro\angle{rnd*360}
+     \pgfmathsetmacro\halflen{2*(rnd-0.5)*0.15 + 0.3}  % When this value is 0.5, the arrow is 10mm long.
+     \draw[line width=1.25pt,-stealth,color=black] (0,0) +(\angle:-\halflen) -- +(\angle:\halflen);}
+ }
+ 
+ \def\tokens{
+     \textunderscore{}Rob/3663, BER/14334, T/342, 's/167, \textunderscore{}B/138, PE/14388, -/19, to/2751, ken/859, iser/8468, \textunderscore{}split/18486, ste/369, \textunderscore{}dit/52, \textunderscore{}voorbeeld/1403, \textunderscore{}el/4241, o/169, qu/2237, ent/666, ./4
+ }
+ \edef\tokenAmount{0}  % No, you can't just calculate the length of the above array. I struggled for a whole hour trying to put the result of a function call that did that into a variable that would be allowed by the rectangle below.
+
+ \def\origin{3.1em}
+
+ \node[anchor=west] at (0,\origin) {RobBERT's BPE-tokeniser splitste dit voorbeeld eloquent.};
+
+ \def\origin{0em}
+
+ \node (node0) at (0,\origin) {};
+ \foreach \token/\id [count=\x] in \tokens {
+     \pgfmathsetmacro{\prevx}{\x-1}
+     
+     \node[right=-0.15mm of node\prevx, fill=white] (node\x) [myboxtext] {\token};
+     \node[below=5mm of node\x.center] {\footnotesize \x};
+     \xdef\tokenAmount{\x}
+ }
+ \draw[ultra thick] (node1.south west) rectangle (node\tokenAmount.north east);
+
+ \def\origin{-5em}
+
+ \node (inode0) at (0,\origin) {};
+ \foreach \token/\id [count=\x] in \tokens {
+     \pgfmathsetmacro{\prevx}{\x-1}
+ 
+     \node[inner sep=0mm,right=0mm of inode\prevx, fill=white] (inode\x) [myboxarrows]  {\footnotesize\id };
+     \node[below=5mm of inode\x.center]  {\footnotesize \x};
+ }
+ \draw[ultra thick] (inode1.south west) rectangle (inode\tokenAmount.north east);
+
+ \def\origin{-10em}
+
+ \pgfmathsetseed{34678901}
+ \node (anode0) at (0,\origin) {};
+ \foreach \token/\id [count=\x] in \tokens {
+     \pgfmathsetmacro{\prevx}{\x-1}
+ 
+     \node[right=0mm of anode\prevx, fill=white] (anode\x) [myboxarrows]  { };
+     \node[below=5mm of anode\x.center]  {\footnotesize \x};
+     \node at (anode\x.center) { \randarrow };
+ }
+ \draw[ultra thick] (anode1.south west) rectangle (anode\tokenAmount.north east);
+\end{tikzpicture}
+}
+\end{adjustwidth}
+\end{mdframed}
+\caption[Data formats at the interfaces inside an NLP system]{Data formats at the interfaces inside an NLP system. Top to bottom: what the tokeniser sees (characters), what the vocabulary sees (subwords), what the embedding matrix sees (token-IDs), and what a neural model sees (embedding vectors).}
+\label{fig:interfaces}
 \end{figure}
 
 
