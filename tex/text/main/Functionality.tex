@@ -310,7 +310,7 @@ Floats have a caption that shows up in one of the lists that follow the table of
 	Re & 0.79 & 0.78 & 0.87 & 0.87 & 0.80 & 0.80 & 0.89 & 0.89 
 \end{tabular}
 }
-\caption{Precision en recall van de splitsingspunten die de BPE-tokeniser ingelast in woorden met typo's t.o.v.\ zonder.}
+\caption{Precision and recall of splits made by a BPE tokeniser in words with typos vs.\ without.}
 \label{tab:typos}
 \end{table}
 
@@ -327,7 +327,7 @@ BTE-knockout-notrivial & L & -- & 39.5k & \tgrad{0.55} & \tgrad{0.61} & \multico
 BTE-knockout & M & -- & 35.7k & \bfseries \tgrad{0.61} & \bfseries \tgrad{0.78} & \multicolumn{1}{c|}{\bfseries \tgrad{0.69}} & \bfseries \tgrad{0.82} & \bfseries \tgrad{0.65} & \multicolumn{1}{c|}{\bfseries \tgrad{0.72}} & \tgrad{0.38} & \bfseries \tgrad{0.83} & \multicolumn{1}{c|}{\tgrad{0.52}} & \tgrad{0.26} & \bfseries \tgrad{0.82} & \tgrad{0.39} \\
 BTE-knockout-notrivial & M & -- & 37.7k & \tgrad{0.60} & \tgrad{0.73} & \multicolumn{1}{c|}{\tgrad{0.66}} & \tgrad{0.72} & \tgrad{0.38} & \multicolumn{1}{c|}{\tgrad{0.49}} & \tgrad{0.38} & \tgrad{0.80} & \multicolumn{1}{c|}{\tgrad{0.51}} & \tgrad{0.20} & \tgrad{0.42} & \tgrad{0.28} \\
 \end{tabular}}
-\caption{Evaluatie van BPE-knockout op morfemische en lexemische splitsingspunten in e-Lex.}
+\caption{Evaluation of BPE-knockout on bound and free morpheme boundaries in e-Lex.}
 \label{tab:knockouttrivial}
 \end{table}
 
@@ -453,7 +453,7 @@ You can also space out two lines by putting a \verb|\vspace| in between them, li
 
 \repo defines the two algorithm commands \verb|\Statey| and \verb|\Stateh| which are necessary at some points in an algorithm to connect the indent lines together (e.g.\ after an early return statement). See examples in the source code of \autoref{algo:knockout}.
 \begin{algorithm}[H]
-	\caption{Knockout: verwijdering van een type uit de BPE-mergegraaf}
+	\caption{Knockout: deleting a type from the BPE merge graph}
 	\label{algo:knockout}
 	\begin{algorithmic}[1]
 		\Function{knockout}{$V$, $M_i$, $M_o$, $\ft$}
