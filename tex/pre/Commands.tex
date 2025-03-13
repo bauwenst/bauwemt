@@ -79,8 +79,8 @@
 \newcommand{\textrussian}[1]{{\fontspec{Linux Libertine O}#1}}
 
 % Hebrew support (any/all of these statements are necessary; took me a long time to throw this together)
-\babelfont[hebrew]{rm}{SILEOT.ttf}  % You need to install this. Overleaf has it automatically. https://software.sil.org/ezra/
-\babelprovide[onchar=fonts ids]{hebrew}  % This should allow writing Hebrew Unicode without wrapping it in \texthebrew 
+\babelfont[hebrew]{rm}[Path=./pre/fonts/,Extension=.ttf]{SILEOTSR}  % Note: this *replaces* calls to \fontspec and \newfontfamily, hence why its last two arguments are identical (https://tex.stackexchange.com/a/665859/203081). Declaring the font with \fontspec and then leaving out the path in babelfont DOES NOT WORK. Aside: it's not a problem if you already have this font installed (from https://software.sil.org/ezra/ or on Overleaf).
+\babelprovide[onchar=fonts ids]{hebrew}  % This should allow writing Hebrew Unicode without wrapping it in \texthebrew
 \DeclareLanguageMapping{hebrew}{english}  % This means BibLaTeX doesn't complain about "language not supported".
 \newcommand{\texthebrew}[1]{\foreignlanguage{hebrew}{#1}}
 
